@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOWNLOAD TIKTOK</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <header>
+        <img src="tektoks.png" alt="TikTok Icon" class="tiktok-icon animate__animated animate__fadeIn">
+        <h1 class="animate__animated animate__fadeIn">الــتــحــمــيــل مــن تــيــك تـــوك</h1>
+    </header>
+    <main>
+        <form id="download-form">
+            <input type="text" id="url" placeholder="أدخل رابط الفيديو هنا" required>
+            <input type="submit" value="بحث">
+        </form>
+        <div id="result" class="result"></div>
+    </main>
+    <footer>
+        <p><a href="https://t.me/j4ck_721s" target="_blank" class="copyright-link">حقوق النشر © 2024</a></p>
+    </footer>
+    <script>
+        document.getElementById('download-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const url = document.getElementById('url').value;
+
+            fetch('download.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ 'url': url })
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('result').innerHTML = data;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

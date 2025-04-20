@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+}
+
+header {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.tiktok-icon {
+    width: 50px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #ff0050;
+    background: -webkit-linear-gradient(#ff0050, #000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowing 1.5s infinite ease-in-out;
+}
+
+@keyframes glowing {
+    0% { text-shadow: 0 0 10px #ff0050, 0 0 20px #ff0050, 0 0 30px #ff0050; }
+    50% { text-shadow: 0 0 20px #ff0050, 0 0 30px #ff0050, 0 0 40px #ff0050; }
+    100% { text-shadow: 0 0 10px #ff0050, 0 0 20px #ff0050, 0 0 30px #ff0050; }
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    background: #fff;
+    color: #000;
+    text-align: center;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.video-container, .audio-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px 0;
+}
+
+video {
+    width: 100%;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.result {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.buttons {
+    margin: 20px 0;
+}
+
+.download-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.download-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+footer {
+    padding: 10px;
+    color: #333;
+}
+
+footer p {
+    margin: 0;
+}
+
+.copyright-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.copyright-link:hover {
+    text-decoration: underline;
+}
