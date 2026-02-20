@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J4CK 721 — ڤیدیۆ داگرتن</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { font-family: 'Vazirmatn', sans-serif; box-sizing: border-box; }
+
+body { background: #0d0d1a; min-height: 100vh; overflow-x: hidden; }
+
+/* Animated BG */
+.bg-orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; animation: drift 12s ease-in-out infinite; }
+.bg-orb-1 { width: 500px; height: 500px; background: rgba(102,63,234,0.15); top: -100px; left: -100px; }
+.bg-orb-2 { width: 400px; height: 400px; background: rgba(236,72,153,0.12); top: -50px; right: -100px; animation-delay: -4s; }
+.bg-orb-3 { width: 350px; height: 350px; background: rgba(6,182,212,0.1); bottom: -100px; left: 20%; animation-delay: -8s; }
+@keyframes drift {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(30px,-20px) scale(1.05); }
+    66% { transform: translate(-20px,30px) scale(0.95); }
+}
+
+/* Glass */
+.glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
+.glass-dark { background: rgba(0,0,0,0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
+
+/* Gradients */
+.grad-purple { background: linear-gradient(135deg,#667eea,#764ba2); }
+.grad-pink   { background: linear-gradient(135deg,#f093fb,#f5576c); }
+.grad-cyan   { background: linear-gradient(135deg,#4facfe,#00f2fe); }
+.grad-tiktok { background: linear-gradient(135deg,#010101,#ff0050,#00f2ea); }
+
+/* Input */
+.url-input { background: rgba(0,0,0,0.3); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 16px 48px 16px 16px; color: white; width: 100%; font-size: 15px; transition: border-color .3s, box-shadow .3s; outline: none; }
+.url-input::placeholder { color: rgba(255,255,255,0.3); }
+.url-input:focus { border-color: rgba(102,126,234,0.6); box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+
+/* Buttons */
+.btn-main { background: linear-gradient(135deg,#667eea,#764ba2); border: none; border-radius: 14px; padding: 16px 28px; color: white; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all .3s; white-space: nowrap; font-family: 'Vazirmatn',sans-serif; }
+.btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102,126,234,0.4); }
+.btn-main:active { transform: scale(0.97); }
+
+.dl-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; border-radius: 12px; border: 1.5px solid; cursor: pointer; font-size: 13px; font-weight: 600; transition: all .2s; font-family: 'Vazirmatn',sans-serif; width: 100%; background: transparent; }
+.dl-btn-video { color: #67e8f9; border-color: rgba(103,232,249,0.4); background: rgba(103,232,249,0.07); }
+.dl-btn-video:hover { background: rgba(103,232,249,0.15); border-color: rgba(103,232,249,0.7); transform: scale(1.02); }
+.dl-btn-audio { color: #fb7185; border-color: rgba(251,113,133,0.4); background: rgba(251,113,133,0.07); }
+.dl-btn-audio:hover { background: rgba(251,113,133,0.15); border-color: rgba(251,113,133,0.7); transform: scale(1.02); }
+.dl-btn-wm { color: #c084fc; border-color: rgba(192,132,252,0.4); background: rgba(192,132,252,0.07); }
+.dl-btn-wm:hover { background: rgba(192,132,252,0.15); border-color: rgba(192,132,252,0.7); transform: scale(1.02); }
+
+/* Loading */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 1s linear infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
+.pulse { animation: pulse 1.5s ease infinite; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+.fade-up { animation: fadeUp .4s ease forwards; }
+
+/* Progress shimmer */
+@keyframes shimmer { 0%{background-position:200% 0}100%{background-position:-200% 0} }
+.shimmer { background: linear-gradient(90deg,#667eea,#f5576c,#00f2fe); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+
+/* Cards */
+.feature-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 24px; transition: all .3s; }
+.feature-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); }
+
+/* Social */
+.social-btn { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: white; text-decoration: none; transition: all .3s; }
+.social-btn:hover { transform: scale(1.04); background: rgba(255,255,255,0.08); }
+
+/* Overlay */
+#overlay { display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.88); backdrop-filter:blur(12px); align-items:center; justify-content:center; flex-direction:column; gap:16px; }
+#overlay.show { display:flex; }
+.overlay-box { width:92%; max-width:640px; height:72vh; border-radius:20px; overflow:hidden; border:1px solid rgba(255,255,255,0.12); background:#0d0d1a; display:flex; flex-direction:column; }
+.overlay-bar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.08); }
+.overlay-close { background:rgba(255,255,255,0.1); border:none; color:white; width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; transition: background .2s; }
+.overlay-close:hover { background:rgba(255,255,255,0.2); }
+
+/* Hide sections */
+#resultSection, #errorSection, #loadingSection { display: none; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+
+/* Float */
+@keyframes float { 0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)} }
+.float { animation: float 7s ease-in-out infinite; }
+</style>
+</head>
+
+<body>
+
+<!-- BG Orbs -->
+<div class="bg-orb bg-orb-1"></div>
+<div class="bg-orb bg-orb-2"></div>
+<div class="bg-orb bg-orb-3"></div>
+
+<!-- Nav -->
+<nav class="fixed top-0 w-full z-50 glass-dark" style="border-bottom:1px solid rgba(255,255,255,0.08)">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 grad-purple rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-bolt text-white text-sm"></i>
+            </div>
+            <span class="text-white font-bold text-lg">J4CK 721</span>
+        </div>
+        <span class="text-gray-500 text-sm hidden md:block">ڤیدیۆ داگرتن</span>
+    </div>
+</nav>
+
+<!-- Main -->
+<main class="relative max-w-5xl mx-auto px-4 pt-28 pb-20">
+
+    <!-- Hero -->
+    <div class="text-center mb-14">
+        <div class="float absolute left-1/2 top-16 w-72 h-72 -translate-x-1/2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 blur-3xl pointer-events-none"></div>
+
+        <h1 class="relative text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
+            داگرتنی ڤیدیۆ<br>
+            <span class="text-transparent bg-clip-text" style="background:linear-gradient(135deg,#a78bfa,#ec4899,#38bdf8);-webkit-background-clip:text;background-clip:text;">بە یەک کلیک</span>
+        </h1>
+        <p class="text-gray-400 text-base md:text-lg max-w-xl mx-auto mb-10">
+            TikTok، YouTube، Instagram و Twitter — هەموویان لەناو وێبسایتەکەدا
+        </p>
+
+        <!-- Input Box -->
+        <div class="max-w-2xl mx-auto">
+            <div class="glass rounded-2xl p-2 shadow-2xl">
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <div class="flex-1 relative">
+                        <i class="fas fa-link absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                        <input id="videoUrl" type="text" class="url-input" placeholder="لینکی ڤیدیۆکە لێرە دابنێ..."
+                            onkeydown="if(event.key==='Enter')processVideo()">
+                    </div>
+                    <button onclick="processVideo()" class="btn-main">
+                        <i class="fas fa-search"></i>
+                        <span>پشکنین</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Platform Badges -->
+            <div class="flex flex-wrap justify-center gap-2 mt-5">
+                <span class="glass px-4 py-1.5 rounded-full text-xs text-gray-400 flex items-center gap-2">
+                    <i class="fab fa-tiktok text-white"></i> TikTok
+                </span>
+                <span class="glass px-4 py-1.5 rounded-full text-xs text-gray-400 flex items-center gap-2">
+                    <i class="fab fa-youtube text-red-500"></i> YouTube
+                </span>
+                <span class="glass px-4 py-1.5 rounded-full text-xs text-gray-400 flex items-center gap-2">
+                    <i class="fab fa-instagram text-pink-500"></i> Instagram
+                </span>
+                <span class="glass px-4 py-1.5 rounded-full text-xs text-gray-400 flex items-center gap-2">
+                    <i class="fab fa-twitter text-blue-400"></i> Twitter
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loadingSection" class="max-w-md mx-auto mb-10">
+        <div class="glass rounded-2xl p-8 text-center">
+            <div class="relative w-16 h-16 mx-auto mb-4">
+                <div class="absolute inset-0 rounded-full border-2 border-purple-500/20 pulse"></div>
+                <div class="absolute inset-0 rounded-full border-2 border-transparent border-t-purple-500 spin"></div>
+                <div class="absolute inset-2 grad-purple rounded-full flex items-center justify-center">
+                    <i id="loadingIcon" class="fab fa-tiktok text-white"></i>
+                </div>
+            </div>
+            <p class="text-white font-semibold mb-1">ڤیدیۆکە بەردەست دەکرێت...</p>
+            <p class="text-gray-500 text-sm mb-4">تکایە چاوەڕێ بکە</p>
+            <div class="w-full bg-white/10 rounded-full h-1">
+                <div class="shimmer h-1 rounded-full" style="width:70%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error -->
+    <div id="errorSection" class="max-w-md mx-auto mb-10">
+        <div class="rounded-2xl p-5 text-center" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25)">
+            <div class="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-times text-red-400 text-lg"></i>
+            </div>
+            <p id="errorMsg" class="text-red-300 font-medium text-sm"></p>
+        </div>
+    </div>
+
+    <!-- Result -->
+    <div id="resultSection" class="max-w-lg mx-auto mb-12 fade-up">
+        <div class="glass rounded-2xl p-5">
+            <!-- Video info row -->
+            <div class="flex gap-4 mb-5">
+                <div class="flex-shrink-0 relative">
+                    <img id="vThumb" src="" alt="" class="w-20 h-20 rounded-xl object-cover hidden">
+                    <div id="vThumbFallback" class="w-20 h-20 rounded-xl flex items-center justify-center" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1)">
+                        <i class="fab fa-tiktok text-white text-2xl"></i>
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0 text-right">
+                    <p id="vTitle" class="text-white font-bold text-sm mb-1 leading-snug" style="word-break:break-word"></p>
+                    <p id="vAuthor" class="text-gray-500 text-xs mb-2"></p>
+                    <div class="flex items-center gap-3 justify-end">
+                        <span id="vDur" class="text-gray-600 text-xs flex items-center gap-1">
+                            <i class="fas fa-clock"></i><span></span>
+                        </span>
+                        <span id="vLikes" class="text-gray-600 text-xs flex items-center gap-1">
+                            <i class="fas fa-heart text-red-500/60"></i><span></span>
+                        </span>
+                        <span id="vBadge" class="text-xs px-2 py-0.5 rounded-full flex items-center gap-1" style="background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6)">
+                            <i class="fab fa-tiktok"></i> TikTok
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Download buttons -->
+            <div id="dlButtons" class="flex flex-col gap-2"></div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14">
+        <div class="feature-card">
+            <div class="w-11 h-11 grad-purple rounded-xl flex items-center justify-center mb-3 shadow-lg">
+                <i class="fas fa-bolt text-white"></i>
+            </div>
+            <h3 class="text-white font-bold mb-1">خێرایی بەرز</h3>
+            <p class="text-gray-500 text-xs leading-relaxed">داگرتن بەبێ چاوەڕێکردنی زۆر</p>
+        </div>
+        <div class="feature-card">
+            <div class="w-11 h-11 grad-pink rounded-xl flex items-center justify-center mb-3 shadow-lg">
+                <i class="fas fa-file-video text-white"></i>
+            </div>
+            <h3 class="text-white font-bold mb-1">بێ واتەرمارک</h3>
+            <p class="text-gray-500 text-xs leading-relaxed">ڤیدیۆی TikTok بێ نیشانەی تیک تۆک</p>
+        </div>
+        <div class="feature-card">
+            <div class="w-11 h-11 grad-cyan rounded-xl flex items-center justify-center mb-3 shadow-lg">
+                <i class="fas fa-shield-alt text-white"></i>
+            </div>
+            <h3 class="text-white font-bold mb-1">ئازاد و پاراستراو</h3>
+            <p class="text-gray-500 text-xs leading-relaxed">بەبێ تۆمارکردن، بەبێ ڤایرۆس</p>
+        </div>
+    </div>
+
+    <!-- Steps -->
+    <div class="glass-dark rounded-2xl p-8 mb-14">
+        <h2 class="text-white text-2xl font-bold text-center mb-8">چۆن کار دەکات؟</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+            <div>
+                <div class="w-12 h-12 grad-purple rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold shadow-lg">١</div>
+                <p class="text-white text-sm font-semibold mb-1">لینک دابنێ</p>
+                <p class="text-gray-500 text-xs">لینکی ڤیدیۆکە کۆپی بکە</p>
+            </div>
+            <div>
+                <div class="w-12 h-12 grad-pink rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold shadow-lg">٢</div>
+                <p class="text-white text-sm font-semibold mb-1">پشکنین</p>
+                <p class="text-gray-500 text-xs">دووگمەی پشکنین بکە</p>
+            </div>
+            <div>
+                <div class="w-12 h-12 grad-cyan rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold shadow-lg">٣</div>
+                <p class="text-white text-sm font-semibold mb-1">شێواز هەڵبژێرە</p>
+                <p class="text-gray-500 text-xs">MP4 یان MP3</p>
+            </div>
+            <div>
+                <div class="w-12 h-12 grad-purple rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold shadow-lg">٤</div>
+                <p class="text-white text-sm font-semibold mb-1">داگرتن</p>
+                <p class="text-gray-500 text-xs">فایلەکە داگیردەبێت</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Social Links -->
+    <div class="glass-dark rounded-2xl p-7 mb-10">
+        <h2 class="text-white text-xl font-bold text-center mb-2">سۆشیاڵ میدیاکانمان</h2>
+        <p class="text-gray-600 text-sm text-center mb-6">بەدوامان بگەڕێ</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <a href="https://www.tiktok.com/@j4ck_721_official?_r=1&_t=ZS-944Q950v5D0" target="_blank" rel="noopener" class="social-btn hover:border-white/30">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 relative overflow-hidden" style="background:#010101;border:1px solid rgba(255,255,255,0.15)">
+                    <span class="absolute inset-0" style="background:linear-gradient(135deg,rgba(255,0,80,.25),rgba(0,242,234,.25))"></span>
+                    <i class="fab fa-tiktok text-white text-sm relative z-10"></i>
+                </div>
+                <div class="text-right min-w-0">
+                    <p class="text-white text-xs font-bold">TikTok</p>
+                    <p class="text-gray-600 text-xs truncate">@j4ck_721_official</p>
+                </div>
+            </a>
+            <a href="https://youtube.com/@j4ck_721s?si=A9emweWUQFEkseLd" target="_blank" rel="noopener" class="social-btn hover:border-red-500/40">
+                <div class="w-9 h-9 rounded-xl bg-red-600 flex items-center justify-center flex-shrink-0">
+                    <i class="fab fa-youtube text-white text-sm"></i>
+                </div>
+                <div class="text-right min-w-0">
+                    <p class="text-white text-xs font-bold">YouTube</p>
+                    <p class="text-gray-600 text-xs truncate">@j4ck_721s</p>
+                </div>
+            </a>
+            <a href="https://t.me/JACK_721_MOD" target="_blank" rel="noopener" class="social-btn hover:border-blue-400/40">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#229ED9">
+                    <i class="fab fa-telegram text-white text-sm"></i>
+                </div>
+                <div class="text-right min-w-0">
+                    <p class="text-white text-xs font-bold">Telegram</p>
+                    <p class="text-gray-600 text-xs truncate">@JACK_721_MOD</p>
+                </div>
+            </a>
+            <a href="https://www.instagram.com/j4ck_721?igsh=MW1lOXR0eGJvdWh3bg==" target="_blank" rel="noopener" class="social-btn hover:border-pink-500/40">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)">
+                    <i class="fab fa-instagram text-white text-sm"></i>
+                </div>
+                <div class="text-right min-w-0">
+                    <p class="text-white text-xs font-bold">Instagram</p>
+                    <p class="text-gray-600 text-xs truncate">@j4ck_721</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <p class="text-center text-gray-700 text-xs">تەنها بۆ مەبەستی کەسی و یاساییەکان بەکارببە</p>
+</main>
+
+<!-- Hidden Overlay for YouTube/Instagram/Twitter -->
+<div id="overlay">
+    <div class="overlay-box">
+        <div class="overlay-bar">
+            <span class="text-gray-400 text-xs" id="overlayTitle">داگرتن...</span>
+            <button class="overlay-close" onclick="closeOverlay()">✕</button>
+        </div>
+        <iframe id="overlayFrame" src="" style="flex:1;border:none;width:100%"
+            sandbox="allow-scripts allow-forms allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+    <p style="color:rgba(255,255,255,0.3);font-size:11px;font-family:Vazirmatn">✕ کلیک بکە بۆ گەڕانەوە</p>
+</div>
+
+<script>
+// ───────────────────────────────────────────
+// Helpers
+// ───────────────────────────────────────────
+function detectPlatform(url) {
+    if (/tiktok\.com|vm\.tiktok\.com|vt\.tiktok\.com/i.test(url)) return 'tiktok';
+    if (/youtube\.com|youtu\.be/i.test(url)) return 'youtube';
+    if (/instagram\.com/i.test(url)) return 'instagram';
+    if (/twitter\.com|x\.com/i.test(url)) return 'twitter';
+    return null;
+}
+
+function fmtNum(n) {
+    if (!n) return '';
+    if (n >= 1e6) return (n/1e6).toFixed(1)+'M';
+    if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
+    return n;
+}
+function fmtDur(s) {
+    if (!s) return '';
+    return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+}
+
+function showLoading(platform) {
+    const icons = {tiktok:'fa-tiktok', youtube:'fa-youtube', instagram:'fa-instagram', twitter:'fa-twitter'};
+    document.getElementById('loadingIcon').className = `fab ${icons[platform]||'fa-video'} text-white`;
+    document.getElementById('loadingSection').style.display = 'block';
+    document.getElementById('resultSection').style.display  = 'none';
+    document.getElementById('errorSection').style.display   = 'none';
+}
+function hideLoading() { document.getElementById('loadingSection').style.display = 'none'; }
+function showError(msg) {
+    hideLoading();
+    document.getElementById('errorMsg').textContent = msg;
+    document.getElementById('errorSection').style.display = 'block';
+    document.getElementById('resultSection').style.display = 'none';
+}
+
+// ───────────────────────────────────────────
+// Main
+// ───────────────────────────────────────────
+async function processVideo() {
+    const url = document.getElementById('videoUrl').value.trim();
+    if (!url) { showError('تکایە لینکێک دابنێ'); return; }
+    const platform = detectPlatform(url);
+    if (!platform) { showError('لینکەکە ناسراو نییە. TikTok، YouTube، Instagram یان Twitter دابنێ'); return; }
+
+    showLoading(platform);
+    try {
+        if (platform === 'tiktok') await doTikTok(url);
+        else                        doOther(url, platform);
+    } catch(e) {
+        showError(e.message || 'هەڵەیەک ڕوویدا، دووبارە هەوڵ بدەرەوە');
+    }
+}
+
+// ───────────────────────────────────────────
+// TikTok — tikwm.com (CORS-friendly)
+// ───────────────────────────────────────────
+async function doTikTok(url) {
+    const res  = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`);
+    if (!res.ok) throw new Error('TikTok API نەگەیشت');
+    const data = await res.json();
+    if (!data || data.code !== 0 || !data.data) throw new Error('ڤیدیۆکە نەدۆزرایەوە. لینکەکە بپشکنەوە');
+    const v = data.data;
+    hideLoading();
+    showResult({
+        platform : 'tiktok',
+        title    : v.title || 'ڤیدیۆی TikTok',
+        author   : v.author?.unique_id ? '@'+v.author.unique_id : '',
+        thumb    : v.cover || v.origin_cover || '',
+        dur      : fmtDur(v.duration),
+        likes    : fmtNum(v.digg_count),
+        buttons  : [
+            v.hdplay && { label:'ڤیدیۆ بێ واتەرمارک HD', url:v.hdplay, ext:'mp4', cls:'dl-btn-video', icon:'fa-download' },
+            v.play   && { label:'ڤیدیۆ بێ واتەرمارک',    url:v.play,   ext:'mp4', cls:'dl-btn-video', icon:'fa-download' },
+            v.wmplay && { label:'ڤیدیۆ بە واتەرمارک',     url:v.wmplay, ext:'mp4', cls:'dl-btn-wm',    icon:'fa-download' },
+            v.music  && { label:'دەنگ (MP3)',              url:v.music,  ext:'mp3', cls:'dl-btn-audio', icon:'fa-music'    },
+        ].filter(Boolean)
+    });
+}
+
+// ───────────────────────────────────────────
+// YouTube / Instagram / Twitter
+// → iframe popup (user never leaves our site)
+// ───────────────────────────────────────────
+function doOther(url, platform) {
+    hideLoading();
+    const enc  = encodeURIComponent(url);
+    const names = { youtube:'YouTube', instagram:'Instagram', twitter:'Twitter / X' };
+    const icons = { youtube:'fa-youtube', instagram:'fa-instagram', twitter:'fa-twitter' };
+    const colors = { youtube:'text-red-400', instagram:'text-pink-400', twitter:'text-blue-400' };
+
+    // iframe sources — loader.to works inside iframe nicely
+    const loaderMp4 = `https://loader.to/api/button/?url=${enc}&f=mp4`;
+    const loaderMp3 = `https://loader.to/api/button/?url=${enc}&f=mp3`;
+
+    // For Instagram / Twitter also try saveinsta / ssstwitter inside iframe
+    const extra = {
+        instagram : `https://snapinsta.app/?url=${enc}`,
+        twitter   : `https://ssstwitter.com/?url=${enc}`,
+        youtube   : `https://yt1s.com/en?url=${enc}`,
+    };
+
+    // Update result card
+    document.getElementById('vThumb').classList.add('hidden');
+    const fb = document.getElementById('vThumbFallback');
+    fb.innerHTML = `<i class="fab ${icons[platform]} ${colors[platform]} text-2xl"></i>`;
+    document.getElementById('vTitle').textContent  = `داگرتنی ${names[platform]}`;
+    document.getElementById('vAuthor').textContent = url.length > 55 ? url.slice(0,55)+'…' : url;
+    document.getElementById('vDur').querySelector('span').textContent   = '';
+    document.getElementById('vLikes').querySelector('span').textContent = '';
+    document.getElementById('vBadge').innerHTML = `<i class="fab ${icons[platform]}"></i> ${names[platform]}`;
+
+    const box = document.getElementById('dlButtons');
+    box.innerHTML = `
+        <button onclick="openOverlay('${loaderMp4}','داگرتنی ڤیدیۆ')" class="dl-btn dl-btn-video">
+            <i class="fas fa-download"></i> داگرتنی ڤیدیۆ (MP4)
+        </button>
+        <button onclick="openOverlay('${loaderMp3}','داگرتنی دەنگ')" class="dl-btn dl-btn-audio">
+            <i class="fas fa-music"></i> داگرتنی دەنگ (MP3)
+        </button>
+        <button onclick="openOverlay('${extra[platform]}','داگرتن')" class="dl-btn dl-btn-wm">
+            <i class="fas fa-globe"></i> ڕێگەی تر
+        </button>
+    `;
+
+    document.getElementById('resultSection').style.display = 'block';
+    document.getElementById('resultSection').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+// ───────────────────────────────────────────
+// Show result (TikTok)
+// ───────────────────────────────────────────
+function showResult(info) {
+    const thumb = document.getElementById('vThumb');
+    const fb    = document.getElementById('vThumbFallback');
+    const iconMap = { tiktok:'fa-tiktok', youtube:'fa-youtube text-red-500', instagram:'fa-instagram text-pink-500', twitter:'fa-twitter text-blue-400' };
+
+    if (info.thumb) {
+        thumb.src = info.thumb;
+        thumb.classList.remove('hidden');
+        fb.style.display = 'none';
+        thumb.onerror = () => { thumb.classList.add('hidden'); fb.style.display='flex'; };
+    } else {
+        thumb.classList.add('hidden');
+        fb.style.display = 'flex';
+        fb.innerHTML = `<i class="fab ${iconMap[info.platform]||'fa-video'} text-white text-2xl"></i>`;
+    }
+
+    document.getElementById('vTitle').textContent  = info.title;
+    document.getElementById('vAuthor').textContent = info.author;
+    document.getElementById('vDur').querySelector('span').textContent   = info.dur;
+    document.getElementById('vLikes').querySelector('span').textContent = info.likes;
+
+    const badgeIcons = { tiktok:'fa-tiktok', youtube:'fa-youtube', instagram:'fa-instagram', twitter:'fa-twitter' };
+    const badgeNames = { tiktok:'TikTok', youtube:'YouTube', instagram:'Instagram', twitter:'Twitter' };
+    document.getElementById('vBadge').innerHTML = `<i class="fab ${badgeIcons[info.platform]}"></i> ${badgeNames[info.platform]}`;
+
+    const box = document.getElementById('dlButtons');
+    box.innerHTML = '';
+    info.buttons.forEach(b => {
+        const btn = document.createElement('button');
+        btn.className = `dl-btn ${b.cls}`;
+        btn.innerHTML = `<i class="fas ${b.icon}"></i> ${b.label}`;
+        btn.onclick = () => downloadBlob(b.url, b.ext, btn);
+        box.appendChild(btn);
+    });
+
+    document.getElementById('resultSection').style.display = 'block';
+    document.getElementById('resultSection').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+// ───────────────────────────────────────────
+// Download as Blob → filename: j4ck_721.ext
+// ───────────────────────────────────────────
+async function downloadBlob(url, ext, btn) {
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner spin"></i> چاوەڕێ بکە...';
+    btn.disabled = true;
+    try {
+        const r    = await fetch(url);
+        if (!r.ok) throw new Error();
+        const blob = await r.blob();
+        const a    = document.createElement('a');
+        a.href     = URL.createObjectURL(blob);
+        a.download = `j4ck_721.${ext}`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+        btn.innerHTML = '<i class="fas fa-check"></i> داگیرا! ✓';
+        setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 3000);
+    } catch {
+        // fallback: direct open
+        window.open(url, '_blank');
+        btn.innerHTML = orig;
+        btn.disabled = false;
+    }
+}
+
+// ───────────────────────────────────────────
+// Overlay (YouTube / Instagram / Twitter)
+// ───────────────────────────────────────────
+function openOverlay(src, title) {
+    document.getElementById('overlayTitle').textContent = title;
+    document.getElementById('overlayFrame').src = src;
+    document.getElementById('overlay').classList.add('show');
+}
+function closeOverlay() {
+    document.getElementById('overlay').classList.remove('show');
+    document.getElementById('overlayFrame').src = '';
+}
+// Close overlay on background click
+document.getElementById('overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeOverlay();
+});
+</script>
+</body>
+</html>
